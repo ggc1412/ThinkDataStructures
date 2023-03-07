@@ -1,10 +1,6 @@
 package com.allendowney.thinkdast;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @author downey
@@ -44,8 +40,16 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public boolean add(T element) {
-		// TODO: FILL THIS IN!
-		return false;
+		if (size >= array.length) {
+			// 큰 배열을 만들고 요소들을 복사한다.
+			T[] bigger = (T[]) new Object[array.length * 2];
+			System.arraycopy(array, 0, bigger, 0, array.length);
+			array = bigger;
+		}
+		array[size] = element;
+		size++;
+
+		return true;
 	}
 
 	@Override
@@ -110,7 +114,11 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: FILL THIS IN!
+		for (int i = 0; i < size; i++) {
+			if (equals(target, array[i])) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -181,8 +189,12 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T remove(int index) {
-		// TODO: FILL THIS IN!
-		return null;
+		T oldElement = get(index);
+		for (int i = index; i < size - 1; i++) {
+			array[i] = array[i + 1];
+		}
+		size--;
+		return oldElement;
 	}
 
 	@Override
@@ -201,8 +213,9 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T set(int index, T element) {
-		// TODO: FILL THIS IN!
-		return null;
+		T oldElement = get(index);
+		array[index] = element;
+		return oldElement;
 	}
 
 	@Override
