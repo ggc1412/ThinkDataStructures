@@ -3,11 +3,7 @@
  */
 package com.allendowney.thinkdast;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @author downey
@@ -82,7 +78,13 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		//TODO: FILL THIS IN!
+		if (index == 0) {
+			head = new Node(element, head);
+		} else {
+			Node node = getNode(index - 1);
+			node.next = new Node(element, node.next);
+		}
+		size++;
 	}
 
 	@Override
@@ -143,7 +145,13 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		//TODO: FILL THIS IN!
+		int index = 0;
+		for (Node node = head; node != null; node = node.next) {
+			if (equals(target, node.data))
+				return index;
+			index++;
+		}
+
 		return -1;
 	}
 
@@ -155,6 +163,7 @@ public class MyLinkedList<E> implements List<E> {
 	 * @param object
 	 */
 	private boolean equals(Object target, Object element) {
+		// ==은 주소값을 비교, equals는 값자체를 비교
 		if (target == null) {
 			return element == null;
 		} else {
@@ -208,8 +217,16 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public E remove(int index) {
-		//TODO: FILL THIS IN!
-		return null;
+		Node removeNode = getNode(index);
+		E removeData = removeNode.data;
+		if (index == 0) {
+			head = head.next;
+		} else {
+			getNode(index - 1).next = removeNode.next;
+		}
+
+		size--;
+		return removeData;
 	}
 
 	@Override
